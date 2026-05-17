@@ -76,7 +76,8 @@ const DOT_ASTRO_IMPORT = /Cannot find module '[^']*\.astro'/;
 // Only the two virtual modules the integration actually generates. A typo'd
 // or otherwise unknown `virtual:emdash/*` import is NOT filtered -- that is a
 // real bug, not the documented boundary.
-const KNOWN_VIRTUAL_IMPORT = /Cannot find module ['"]virtual:emdash\/(?:admin-registry|auth-providers)['"]/;
+const KNOWN_VIRTUAL_IMPORT =
+	/Cannot find module ['"]virtual:emdash\/(?:admin-registry|auth-providers)['"]/;
 
 // Issue #1053. Asserted independently of the baseline file so this specific
 // regression can never slip through, even if the baseline or tsc output drifts.
@@ -139,7 +140,9 @@ function parseDiagnostics(output) {
 
 /** Documented boundary: unresolvable `.astro` / known virtual modules. */
 function isBoundary({ code, message }) {
-	return code === "TS2307" && (DOT_ASTRO_IMPORT.test(message) || KNOWN_VIRTUAL_IMPORT.test(message));
+	return (
+		code === "TS2307" && (DOT_ASTRO_IMPORT.test(message) || KNOWN_VIRTUAL_IMPORT.test(message))
+	);
 }
 
 const specifiers = sourceExportSpecifiers();
@@ -152,10 +155,14 @@ const banner =
 writeFileSync(entryFile, banner + specifiers.map((s) => `import "${s}";`).join("\n") + "\n");
 
 const tsc = resolve(fixtureDir, "node_modules/.bin/tsc");
-const result = spawnSync(tsc, ["--noEmit", "--pretty", "false", "-p", resolve(fixtureDir, "tsconfig.json")], {
-	cwd: fixtureDir,
-	encoding: "utf-8",
-});
+const result = spawnSync(
+	tsc,
+	["--noEmit", "--pretty", "false", "-p", resolve(fixtureDir, "tsconfig.json")],
+	{
+		cwd: fixtureDir,
+		encoding: "utf-8",
+	},
+);
 
 if (!keep) rmSync(generatedDir, { recursive: true, force: true });
 
@@ -166,14 +173,18 @@ if (result.status === null) {
 // tsc exits 0 (clean) or 2 (type errors). Anything else (1, 134/OOM, signals)
 // means a crashed/partial run -- its truncated output must not look "clean".
 if (result.status !== 0 && result.status !== 2) {
-	fail(`tsc exited ${String(result.status)} (expected 0 or 2) -- crashed or partial run, output not trustworthy.`);
+	fail(
+		`tsc exited ${String(result.status)} (expected 0 or 2) -- crashed or partial run, output not trustworthy.`,
+	);
 }
 
 const output = `${result.stdout ?? ""}${result.stderr ?? ""}`;
 const rawErrorCount = (output.match(RAW_ERROR) ?? []).length;
 
 if (result.status === 0 && rawErrorCount > 0) {
-	fail(`tsc exited 0 but emitted ${rawErrorCount} error line(s) -- inconsistent, refusing to trust.`);
+	fail(
+		`tsc exited 0 but emitted ${rawErrorCount} error line(s) -- inconsistent, refusing to trust.`,
+	);
 }
 
 const parsed = parseDiagnostics(output);
@@ -208,7 +219,9 @@ if (counts[SENTINEL_KEY]) {
 }
 
 if (update) {
-	const sorted = Object.fromEntries(Object.entries(counts).toSorted((a, b) => byString(a[0], b[0])));
+	const sorted = Object.fromEntries(
+		Object.entries(counts).toSorted((a, b) => byString(a[0], b[0])),
+	);
 	writeFileSync(baselineFile, JSON.stringify(sorted, null, "\t") + "\n");
 	console.log(
 		`[typecheck-public-source] baseline updated -- ${Object.keys(sorted).length} known (file,code) ` +
@@ -224,7 +237,10 @@ if (!existsSync(baselineFile)) {
 const baseline = JSON.parse(readFileSync(baselineFile, "utf-8"));
 const regressions = Object.entries(counts)
 	.filter(([key, n]) => n > (baseline[key] ?? 0))
-	.map(([key, n]) => `${key.replace("\t", "  ")}  (now ${String(n)}, baseline ${String(baseline[key] ?? 0)})`)
+	.map(
+		([key, n]) =>
+			`${key.replace("\t", "  ")}  (now ${String(n)}, baseline ${String(baseline[key] ?? 0)})`,
+	)
 	.toSorted(byString);
 
 if (regressions.length > 0) {
