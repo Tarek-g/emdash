@@ -1,18 +1,23 @@
 /**
  * Unit tests for the URL helpers in `src/i18n/resolve.ts`.
  *
- * `localizePath` prefers Astro's `getRelativeLocaleUrl` from the
- * `astro:i18n` virtual module; in this unit-test environment the
- * virtual module isn't resolvable, so these tests exercise the
- * manual-fallback path. Behavioural coverage for the Astro path
- * lives in the demo/integration suites where the Astro runtime is
- * available.
+ * `localizePath` reads the resolved Astro i18n config from
+ * `astro:config/server` at runtime. In this unit-test environment
+ * the virtual module isn't resolvable, so these tests exercise the
+ * fallback path that reads from EmDash's runtime `setI18nConfig`.
+ * End-to-end coverage of the Astro virtual-module path lives in
+ * `tests/integration/seo/sitemap-route.test.ts` plus manual demo
+ * testing.
  */
 
 import { afterEach, describe, expect, it } from "vitest";
 
 import { setI18nConfig } from "../../../src/i18n/config.js";
-import { interpolateUrlPattern, localizePath } from "../../../src/i18n/resolve.js";
+import {
+	_resetAstroI18nCacheForTests,
+	interpolateUrlPattern,
+	localizePath,
+} from "../../../src/i18n/resolve.js";
 
 describe("interpolateUrlPattern", () => {
 	it("substitutes {slug} and {id}", () => {
@@ -83,6 +88,7 @@ describe("interpolateUrlPattern", () => {
 describe("localizePath", () => {
 	afterEach(() => {
 		setI18nConfig(null);
+		_resetAstroI18nCacheForTests();
 	});
 
 	it("returns path unchanged when i18n is disabled", async () => {
@@ -131,5 +137,16 @@ describe("localizePath", () => {
 			prefixDefaultLocale: false,
 		});
 		expect(await localizePath("//blog/hello/", "fr")).toBe("/fr/blog/hello");
+	});
+
+	it("uses the locale code as the segment for drifted/legacy locale values", async () => {
+		setI18nConfig({
+			defaultLocale: "en",
+			locales: ["en", "fr"],
+			prefixDefaultLocale: false,
+		});
+		// `de` isn't in the configured locales -- the helper still
+		// produces a usable URL rather than dropping the row entirely.
+		expect(await localizePath("/blog/hello", "de")).toBe("/de/blog/hello");
 	});
 });

@@ -18,6 +18,7 @@ import { runMigrations } from "../../../src/database/migrations/runner.js";
 import { ContentRepository } from "../../../src/database/repositories/content.js";
 import type { Database } from "../../../src/database/types.js";
 import { setI18nConfig } from "../../../src/i18n/config.js";
+import { _resetAstroI18nCacheForTests } from "../../../src/i18n/resolve.js";
 import { SchemaRegistry } from "../../../src/schema/registry.js";
 
 interface MockContextOpts {
@@ -63,6 +64,7 @@ describe("sitemap-[collection].xml route", () => {
 
 	afterEach(async () => {
 		setI18nConfig(null);
+		_resetAstroI18nCacheForTests();
 		await db.destroy();
 	});
 
