@@ -84,8 +84,12 @@ const diagnoseResultSchema = v.object({
 });
 type DiagnoseResult = v.InferOutput<typeof diagnoseResultSchema>;
 
+// `as const` on the picklist preserves the literal union under
+// valibot's `InferOutput` inference. Without it, oxlint's type-aware
+// pass collapses `VerifyResult["verdict"]` to `any`, which then
+// poisons the union in `InvestigateResult["verdict"]`.
 const verifyResultSchema = v.object({
-	verdict: v.picklist(["bug", "intended-behavior", "unclear"]),
+	verdict: v.picklist(["bug", "intended-behavior", "unclear"] as const),
 	reasoning: v.pipe(v.string(), v.minLength(10), v.maxLength(2000)),
 });
 type VerifyResult = v.InferOutput<typeof verifyResultSchema>;
