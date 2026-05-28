@@ -13,17 +13,19 @@ import { apiError, apiSuccess } from "#api/error.js";
 import { isParseError, parseBody } from "#api/parse.js";
 import { authMeActionBody } from "#api/schemas.js";
 
-export const GET: APIRoute = async ({ locals, session }) => {
+import { UserRepository } from "../../../../database/repositories/user.js";
+
+export const GET: APIRoute = async ({ locals }) => {
 	const { user } = locals;
 
 	if (!user) {
 		return apiError("NOT_AUTHENTICATED", "Not authenticated", 401);
 	}
 
-	// Check if this is the user's first login (for welcome modal)
-	// We track this in the session to show the modal only once
-	const hasSeenWelcome = await session?.get("hasSeenWelcome");
-	const isFirstLogin = !hasSeenWelcome;
+	// Check if this is the user's first login (for welcome modal).
+	// The flag is persisted in the user's `data` JSON column so it survives
+	// session expiry / rotation.
+	const isFirstLogin = !user.data?.welcomeDismissed;
 
 	// Return safe user info (no sensitive data)
 	return apiSuccess({
@@ -41,8 +43,8 @@ export const GET: APIRoute = async ({ locals, session }) => {
  *
  * Mark that the user has seen the welcome modal.
  */
-export const POST: APIRoute = async ({ request, locals, session }) => {
-	const { user } = locals;
+export const POST: APIRoute = async ({ request, locals }) => {
+	const { user, emdash } = locals;
 
 	if (!user) {
 		return apiError("NOT_AUTHENTICATED", "Not authenticated", 401);
@@ -52,7 +54,11 @@ export const POST: APIRoute = async ({ request, locals, session }) => {
 	if (isParseError(body)) return body;
 
 	if (body.action === "dismissWelcome") {
-		session?.set("hasSeenWelcome", true);
+		// Persist in the user's data column so it survives session expiry.
+		const userRepo = new UserRepository(emdash.db);
+		await userRepo.update(user.id, {
+			data: { ...user.data, welcomeDismissed: true },
+		});
 		return apiSuccess({ success: true });
 	}
 
