@@ -243,6 +243,102 @@ article p,
 	font-weight: 750;
 }
 
+.feature-showcase {
+	background:
+		linear-gradient(90deg, rgba(23, 107, 76, 0.08), transparent 42%),
+		var(--white);
+}
+
+.feature-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.feature-card {
+	position: relative;
+	min-height: 320px;
+	padding: 24px;
+	overflow: hidden;
+}
+
+.feature-card.highlight {
+	background: var(--ink);
+	color: var(--white);
+}
+
+.feature-card.highlight p,
+.feature-card.highlight li {
+	color: rgba(255, 255, 255, 0.78);
+}
+
+.feature-number {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	margin-bottom: 22px;
+	border: 1px solid currentColor;
+	border-radius: 50%;
+	font-size: 0.82rem;
+	font-weight: 800;
+}
+
+.feature-card ul {
+	display: grid;
+	gap: 8px;
+	margin: 20px 0 0;
+	padding: 0;
+	list-style: none;
+	color: var(--muted);
+	font-size: 0.95rem;
+}
+
+.feature-card li {
+	position: relative;
+	padding-left: 18px;
+}
+
+.feature-card li::before {
+	position: absolute;
+	left: 0;
+	content: "/";
+	color: var(--green);
+	font-weight: 800;
+}
+
+.workflow {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.workflow div {
+	min-height: 190px;
+	padding: 22px;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	background: var(--white);
+}
+
+.workflow span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	margin-bottom: 28px;
+	border-radius: 50%;
+	background: var(--mint);
+	color: var(--green);
+	font-weight: 800;
+}
+
+.workflow p {
+	color: var(--muted);
+}
+
 .notice {
 	max-width: 920px;
 }
@@ -262,7 +358,9 @@ article p,
 	.hero,
 	.split,
 	.cards,
-	.use-cases {
+	.use-cases,
+	.feature-grid,
+	.workflow {
 		grid-template-columns: 1fr;
 	}
 

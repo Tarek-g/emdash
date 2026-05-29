@@ -15,6 +15,7 @@
 			<a class="brand" href="https://github.com/emdash-cms/emdash">EmDash</a>
 			<nav aria-label="Primary navigation">
 				<a href="#why">Why</a>
+				<a href="#new">New</a>
 				<a href="#capabilities">Capabilities</a>
 				<a href="#public-service">Public service</a>
 				<a href="https://github.com/emdash-cms/emdash">GitHub</a>
@@ -101,6 +102,93 @@
 				</div>
 			</section>
 
+			<section id="new" class="band feature-showcase">
+				<div class="section-heading">
+					<p class="eyebrow">New in this preview</p>
+					<h2>Visual page building without giving up structured content</h2>
+				</div>
+				<div class="feature-grid">
+					<article class="feature-card highlight">
+						<span class="feature-number">01</span>
+						<h3>Visual section picker</h3>
+						<p>
+							Editors can browse reusable page sections by category, preview each option, and add
+							the right block without memorizing schema names.
+						</p>
+						<ul>
+							<li>Category filters</li>
+							<li>Visual previews and thumbnails</li>
+							<li>Accessible search labels</li>
+						</ul>
+					</article>
+					<article class="feature-card">
+						<span class="feature-number">02</span>
+						<h3>Expanded section library</h3>
+						<p>
+							The content vocabulary now covers common marketing, editorial, institutional, and
+							resource-page patterns.
+						</p>
+						<ul>
+							<li>FAQ, video, pricing, CTA, testimonials</li>
+							<li>Feature lists, logo clouds, steps, stats</li>
+							<li>Cards, tabs, accordions, banners</li>
+						</ul>
+					</article>
+					<article class="feature-card">
+						<span class="feature-number">03</span>
+						<h3>Intent-based drafts</h3>
+						<p>
+							Editor intent can be mapped into known section schemas, keeping generated drafts
+							inside the system's structured content model.
+						</p>
+						<ul>
+							<li>Schema-constrained output</li>
+							<li>Confidence and alternatives</li>
+							<li>Tests for draft selection behavior</li>
+						</ul>
+					</article>
+					<article class="feature-card">
+						<span class="feature-number">04</span>
+						<h3>Registry coverage</h3>
+						<p>
+							The block registry is tested across package boundaries so admin choices, block
+							definitions, and Astro renderers stay aligned.
+						</p>
+						<ul>
+							<li>Coverage tests for section types</li>
+							<li>Renderer alignment checks</li>
+							<li>Safer future additions</li>
+						</ul>
+					</article>
+					<article class="feature-card">
+						<span class="feature-number">05</span>
+						<h3>Builder editor groundwork</h3>
+						<p>
+							The project now has the foundation for richer block editing, including property
+							panels, drag/drop wrappers, and Lexical persistence.
+						</p>
+						<ul>
+							<li>Block picker and property panel</li>
+							<li>Builder-to-Lexical conversion</li>
+							<li>Lexical-to-builder conversion</li>
+						</ul>
+					</article>
+					<article class="feature-card">
+						<span class="feature-number">06</span>
+						<h3>Autosave-ready editing flow</h3>
+						<p>
+							Content editing now includes autosave endpoint support and internal service wiring
+							that prepares the editor for longer authoring sessions.
+						</p>
+						<ul>
+							<li>Autosave API route</li>
+							<li>Runtime service container</li>
+							<li>More resilient editing workflow</li>
+						</ul>
+					</article>
+				</div>
+			</section>
+
 			<section class="band">
 				<div class="section-heading">
 					<p class="eyebrow">Section blocks</p>
@@ -122,6 +210,35 @@
 					<li>Stats</li>
 					<li>Tabs</li>
 				</ul>
+			</section>
+
+			<section class="grid-section workflow-section">
+				<div class="section-heading">
+					<p class="eyebrow">Editorial workflow</p>
+					<h2>From idea to structured page section</h2>
+				</div>
+				<div class="workflow">
+					<div>
+						<span>1</span>
+						<h3>Choose</h3>
+						<p>Pick a section visually from a categorized library.</p>
+					</div>
+					<div>
+						<span>2</span>
+						<h3>Draft</h3>
+						<p>Start from editor intent while staying inside supported schemas.</p>
+					</div>
+					<div>
+						<span>3</span>
+						<h3>Edit</h3>
+						<p>Adjust structured fields through builder and section controls.</p>
+					</div>
+					<div>
+						<span>4</span>
+						<h3>Render</h3>
+						<p>Publish through Astro renderers without serializing the page as raw HTML.</p>
+					</div>
+				</div>
 			</section>
 
 			<section id="public-service" class="grid-section">
