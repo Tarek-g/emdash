@@ -19,9 +19,9 @@ EmDash runs on Cloudflare (D1 + R2 + Workers) or any Node.js server with SQLite.
 
 ## Public Preview
 
-The repository includes a static public-service overview for GitHub Pages at [`public-site/`](public-site/). It explains EmDash for civic, institutional, research, campaign, and nonprofit publishing teams that need inspectable open-source infrastructure.
+The repository includes a static public-service overview for Cloudflare Pages at [`public-site/`](public-site/). It explains EmDash for civic, institutional, research, campaign, and nonprofit publishing teams that need inspectable open-source infrastructure.
 
-GitHub Pages can host the static overview, project narrative, and documentation links. The full CMS admin, authentication, database, media storage, and plugin runtime require a server environment such as Cloudflare Workers with D1/R2 or a Node.js deployment with SQLite.
+Cloudflare Pages can host the static overview, project narrative, and documentation links. The full CMS admin, authentication, database, media storage, and plugin runtime require a server environment such as Cloudflare Workers with D1/R2 or a Node.js deployment with SQLite.
 
 ## Templates
 
