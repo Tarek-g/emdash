@@ -244,9 +244,7 @@ article p,
 }
 
 .feature-showcase {
-	background:
-		linear-gradient(90deg, rgba(23, 107, 76, 0.08), transparent 42%),
-		var(--white);
+	background: linear-gradient(90deg, rgba(23, 107, 76, 0.08), transparent 42%), var(--white);
 }
 
 .feature-grid {
